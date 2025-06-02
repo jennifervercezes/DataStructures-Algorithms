@@ -3,7 +3,6 @@ class Node:
     def __init__(self,data):
         self.data = data
         self.next = None
-        self.last = None
 
 # Deck - deck é duplo e tem head e tail
 # Sentido de Inserção/Last/Next <------o------>
