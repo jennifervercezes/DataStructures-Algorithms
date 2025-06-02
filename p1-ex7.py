@@ -16,4 +16,4 @@ def somaPolinomios(P, Q):
 
     return resultado
 
-print(somaPolinomios(P, Q))
+print(somaPolinomios(P, Q), "\n Lista Encadeada Simples \n Complexidade O(n)")
