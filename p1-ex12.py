@@ -43,5 +43,5 @@ op = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
 
 result = infToPref(expr2, op)
 print(f' Prefixa {result}, Infixa {expr2}')
-print("Complexidade O(n) para Tempo e Espaço")  
 # Saída esperada: *+ABC
+print("Complexidade O(n) para Tempo e Espaço")  
