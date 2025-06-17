@@ -36,12 +36,12 @@ def infToPref(expr, op):
     return result 
 
 
+if __name__ == "__main__":
+    expr1 = list("(A+B)*C") 
+    expr2 = list("1+(3/4)-(5*8)")
+    op = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
 
-expr1 = list("(A+B)*C") 
-expr2 = list("1+(3/4)-(5*8)")
-op = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
-
-result = infToPref(expr2, op)
-print(f' Prefixa {result}, Infixa {expr2}')
-# Saída esperada: *+ABC
-print("Complexidade O(n) para Tempo e Espaço")  
+    result = infToPref(expr2, op)
+    print(f' Prefixa {result}, Infixa {expr2}')
+    # Saída esperada: *+ABC
+    print("Complexidade O(n) para Tempo e Espaço")  

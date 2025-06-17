@@ -27,4 +27,4 @@ if indice != -1:
 else:
     print("Contato não encontrado")
 
-print("\n Busca Binária em Array \n Complexidade: \n Se Ordenado: O(log(n) \n Se há de Ordenar com Merge/Quick: O(nlog(n))")
+print("\n Busca Binária em Array \n Complexidade: \n Se Ordenado: O(log(n)) \n Se há de Ordenar com Merge/Quick: O(nlog(n))")

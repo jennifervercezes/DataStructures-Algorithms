@@ -17,12 +17,12 @@ def posToInf(expr):
     return pilha
 
 
+if __name__ == "__main__":
+    expr1 = list("AB+C*") 
+    expr2 = list("134/+58*-")
+    op = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
 
-expr1 = list("AB+C*") 
-expr2 = list("134/+58*-")
-op = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
-
-result = posToInf(expr2)
-print(f' Posfixa {expr2}, Infixa {result}')
-# Saída esperada: A+B*C
-print("Complexidade O(n) para Tempo e Espaço") 
+    result = posToInf(expr2)
+    print(f' Posfixa {expr2}, Infixa {result}')
+    # Saída esperada: A+B*C
+    print("Complexidade O(n) para Tempo e Espaço") 

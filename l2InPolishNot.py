@@ -16,12 +16,12 @@ def prefToInf(expr):
     return pilha
 
 
+if __name__ == "__main__":
+    expr1 = list("*+ABC") 
+    expr2 = list("-+1/34*58")
+    op = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
 
-expr1 = list("*+ABC") 
-expr2 = list("-+1/34*58")
-op = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
-
-result = prefToInf(expr2)
-print(f' Prefixa {expr2}, Infixa {result}')
-# Saída esperada: A+B*C
-print("Complexidade O(n) para Tempo e Espaço") 
+    result = prefToInf(expr2)
+    print(f' Prefixa {expr2}, Infixa {result}')
+    # Saída esperada: A+B*C
+    print("Complexidade O(n) para Tempo e Espaço") 

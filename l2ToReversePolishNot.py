@@ -37,12 +37,12 @@ def infToPos(expr, op):
     return result 
 
 
+if __name__ == "__main__":
+    expr1 = list("(A+B)*C")
+    expr2 = list("1+(3/4)-(5*8)")
+    op = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
 
-expr1 = list("(A+B)*C")
-expr2 = list("1+(3/4)-(5*8)")
-op = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
-
-result = infToPos(expr2, op)
-print(f' Posfixa {result}, Infixa {expr2}')  
-# Saída esperada: AB+C*
-print("Complexidade O(n) para Tempo e Espaço")  
+    result = infToPos(expr2, op)
+    print(f' Posfixa {result}, Infixa {expr2}')  
+    # Saída esperada: AB+C*
+    print("Complexidade O(n) para Tempo e Espaço")  
