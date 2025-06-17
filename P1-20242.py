@@ -34,67 +34,77 @@ Lembre-se de descrever qual a estrutura de dados que a sua proposta algorítmica
 
 from collections import deque
 
-def isValid(j_ilha, c_ilha, j_cont, c_cont):
-    # Verifica se em ambos os lados não há mais canibais que jesuítas
-    cond1 = (j_ilha == 0 or j_ilha >= c_ilha)
-    cond2 = (j_cont == 0 or j_cont >= c_cont)
-    return cond1 and cond2
+def is_safe(j, c):
+    return j == 0 or j >= c
+
+def estado_valido(ij, ic, cj, cc):
+    return is_safe(ij, ic) and is_safe(cj, cc)
 
 def evacuar(n):
-    estado_inicial = (n, n, 0, 0, 'ilha')  
-    # j_ilha, c_ilha, j_cont, c_cont, barco
+    estado_inicial = (n, n, 0, 0)  # (jesuítas, canibais, barco_na_ilha, tempo)
+    visitados = set()
+    fila = deque()
+    fila.append((estado_inicial, []))  # estado + caminho
 
-    visitado = set()
-    fila = deque([(estado_inicial, 0)])  
-    # (estado, travessias)
-
-    movimentos = [(1, 0), (2, 0), (0, 1), (0, 2), (1, 1)]  
-    # todas as formas de usar 1 ou 2 lugares]
+    melhores_salvos = 0
+    melhor_tempo = float('inf')
 
     while fila:
-        (j_ilha, c_ilha, j_cont, c_cont, barco), travessias = fila.popleft()
-
-        if (j_ilha, c_ilha, j_cont, c_cont) == (0, 0, n, n):
-            tempo_total = travessias * 10
-            return tempo_total, travessias, n  
-        # Todos salvos
-
-        if (j_ilha, c_ilha, barco) in visitado:
+        (ij, ic, barco, tempo), caminho = fila.popleft()
+        cj, cc = n - ij, n - ic  # continente
+        
+        # Verificar estado válido
+        if not estado_valido(ij, ic, cj, cc):
             continue
-        visitado.add((j_ilha, c_ilha, barco))
 
-        for j, c in movimentos:
-            if barco == 'ilha':
-                novo_j_ilha = j_ilha - j
-                novo_c_ilha = c_ilha - c
-                novo_j_cont = j_cont + j
-                novo_c_cont = c_cont + c
-                novo_barco = 'continente'
-            else:
-                novo_j_ilha = j_ilha + j
-                novo_c_ilha = c_ilha + c
-                novo_j_cont = j_cont - j
-                novo_c_cont = c_cont - c
-                novo_barco = 'ilha'
+        if (ij, ic, barco) in visitados:
+            continue
+        visitados.add((ij, ic, barco))
 
-            if 0 <= novo_j_ilha <= n and 0 <= novo_c_ilha <= n and \
-               0 <= novo_j_cont <= n and 0 <= novo_c_cont <= n:
-                if isValid(novo_j_ilha, novo_c_ilha, novo_j_cont, novo_c_cont):
-                    fila.append(((novo_j_ilha, novo_c_ilha, novo_j_cont, novo_c_cont, novo_barco), travessias + 1))
+        novo_caminho = caminho + [((ij, ic), (cj, cc), barco, tempo)]
 
-    nsalvos = [(j_ilha - j_cont), (c_ilha - c_cont)]
-    # Se chegou aqui, não é possível salvar todos
-    return None, None, nsalvos
+        # Caso base: todos foram salvos
+        if ij == 0 and ic == 0:
+            if tempo <= 24 * 60:
+                return n, tempo, novo_caminho
+            continue
+
+        # Gerar movimentos possíveis (barco leva 1 ou 2 pessoas)
+        movimentos = [(1,0), (0,1), (1,1), (2,0), (0,2)]
+
+        for mj, mc in movimentos:
+            if barco == 0:  # barco está na ilha → indo pro continente
+                if ij >= mj and ic >= mc:
+                    new_ij = ij - mj
+                    new_ic = ic - mc
+                    new_estado = (new_ij, new_ic, 1, tempo + 10)
+                    fila.append((new_estado, novo_caminho))
+            else:  # barco está no continente → voltando
+                if cj >= mj and cc >= mc:
+                    new_ij = ij + mj
+                    new_ic = ic + mc
+                    new_estado = (new_ij, new_ic, 0, tempo + 10)
+                    fila.append((new_estado, novo_caminho))
+
+    # Nenhuma solução total possível → tentar salvar p < n
+    for p in reversed(range(n)):
+        # Reduzir n artificialmente e tentar
+        resultado = evacuar(p)
+        if resultado:
+            return resultado
+
+    return 0, 0, []
 
 def q1():
-    n = 14 # Numero de jesuítas = Numero de canibais
-    tempo, viagens, salvos = evacuar(n)
+    n = 17
+    salvos, tempo, caminho = evacuar(n)
 
-    if tempo:
-        print(f"Todos salvos em {tempo} minutos, usando {viagens} travessias.")
-    else:
-        print(f"Não é possível salvar os {n} jesuítas e {n} canibais.")
-        print(f"Possível salvar até {salvos} jesuitas, canibais de cada lado.")
+    print(f"Máximo salvo: {salvos}")
+    print(f"Tempo gasto: {tempo} minutos")
+
+    print("Etapas:")
+    for est in caminho:
+        print(est)
 
     print("Complexidade O(n²) Estrutura: Fila")
 
@@ -177,4 +187,4 @@ def q2():
 
 #--------------------------------------------------------------------------------
 if __name__ == "__main__":
-    q2()
+    q1()
